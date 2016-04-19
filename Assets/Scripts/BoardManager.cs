@@ -8,9 +8,10 @@ public class BoardManager : MonoBehaviour
 
 	public int columns = 10;
 	public int rows = 10;
-
+	public Count rockCount = new Count (5, 9);
 
 	public GameObject[] floorTiles;
+	public GameObject[] rockTiles;
 
 	private Transform boardHolder;
 	private List<Vector2> gridPositions = new List<Vector2> ();
@@ -30,7 +31,7 @@ public class BoardManager : MonoBehaviour
 	{
 		BoardSetup ();
 		InitializeList ();
-//		LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
+		LayoutObjectAtRandom (rockTiles, rockCount.minimum, rockCount.maximum);
 //		LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
 	}
 
@@ -64,5 +65,16 @@ public class BoardManager : MonoBehaviour
 
 	void LayoutObjectAtRandom(GameObject[] tileArray, int count){
 		LayoutObjectAtRandom (tileArray, count, count);
+	}
+
+	[Serializable]
+	public class Count {
+		public int minimum;
+		public int maximum;
+
+		public Count (int min, int max){
+			minimum = min;
+			maximum = max;
+		}
 	}
 }
