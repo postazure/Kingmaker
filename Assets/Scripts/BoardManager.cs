@@ -6,12 +6,14 @@ using Random = UnityEngine.Random;
 public class BoardManager : MonoBehaviour
 {
 
-	public int columns = 10;
-	public int rows = 10;
+	public int columns = 20;
+	public int rows = 20;
 	public Count rockCount = new Count (5, 9);
+	public Count treeCount = new Count (5, 9);
 
 	public GameObject[] floorTiles;
 	public GameObject[] rockTiles;
+	public GameObject[] treeTiles;
 
 	private Transform boardHolder;
 	private List<Vector2> gridPositions = new List<Vector2> ();
@@ -32,7 +34,7 @@ public class BoardManager : MonoBehaviour
 		BoardSetup ();
 		InitializeList ();
 		LayoutObjectAtRandom (rockTiles, rockCount.minimum, rockCount.maximum);
-//		LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
+		LayoutObjectAtRandom (treeTiles, treeCount.minimum, treeCount.maximum);
 	}
 
 	void BoardSetup ()
