@@ -32,7 +32,6 @@ public class Resource : Targetable
 
 		if (damageTaken >= hp) {
 			gameObject.SetActive (false);
-			RemoveTarget ();
 		} else {
 			spriteRenderer.sprite = sprites[damageTaken];
 		}
