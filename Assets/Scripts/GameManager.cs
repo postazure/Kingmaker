@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameManager : Singleton<GameManager> {
 	private BoardManager boardScript;
+	public PlayerManager playerManager = new PlayerManager();
 
 	void Awake()
 	{

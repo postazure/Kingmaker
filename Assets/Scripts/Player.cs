@@ -5,28 +5,38 @@ public class Player : MonoBehaviour
 {
 
 	public Vector2 Destination { get; set; }
+
+	public Targetable Target { get; set; }
+
 	public LayerMask blockingLayer;
+
 
 	private BoxCollider2D boxCollider;
 	private Rigidbody2D rb2D;
+	private Animator animator;
 	private float inverseMoveTime;
 
-	private float moveSpeed = 0.01f;
-//	private float pickupRange = 0.5f;
-//	private Animator animator;
+	private float moveSpeed = 3.0f;
+	private float meleeRange = 1.5f;
 
 	void Start ()
 	{
-//		animator = GetComponent<Animator> ();
-		boxCollider = GetComponent<BoxCollider2D>();
+		boxCollider = GetComponent<BoxCollider2D> ();
 		rb2D = GetComponent<Rigidbody2D> ();
+		animator = GetComponent<Animator> ();
+		GameManager.instance.playerManager.player = this;
 	}
 
 	void Update ()
 	{
 		SetDestination ();
-		MoveToDestination ();
+		Move (Destination);
 
+		if (isTargetInRange () && Input.GetMouseButtonDown (0)) {
+			if (Target is Resource) {
+				((Resource)Target).ApplyDamage (1);
+			}
+		}
 	}
 
 	void SetDestination ()
@@ -34,23 +44,23 @@ public class Player : MonoBehaviour
 		if (Input.GetMouseButton (0)) {
 			var mouseClick = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			Destination = mouseClick;
-
 		}
 	}
 
-	void MoveToDestination ()
+	//	void OnCollisionEnter2D(Collision2D coll){
+
+	//	}
+		
+	void Move (Vector2 targetPos)
 	{
-			StartCoroutine(SmoothMovement(Destination));
+		rb2D.velocity = (targetPos - (Vector2)transform.position).normalized * moveSpeed;
 	}
 
-	IEnumerator SmoothMovement(Vector2 end)
+	bool isTargetInRange ()
 	{
-		float sqrRemainingDistance = ((Vector2) transform.position - end).sqrMagnitude;
-
-		while(sqrRemainingDistance > float.Epsilon)
-		{
-			transform.position = Vector2.MoveTowards (transform.position, Destination, moveSpeed * Time.deltaTime);
-			yield return null;
+		if (Target == null) {
+			return false;
 		}
+		return (transform.position - Target.transform.position).sqrMagnitude < meleeRange;
 	}
 }
