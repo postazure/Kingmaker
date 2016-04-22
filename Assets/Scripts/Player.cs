@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 	private Animator animator;
 	private float inverseMoveTime;
 
-	private float moveSpeed = 3.0f;
+	private float moveSpeed = 5.0f;
 	private float meleeRange = 1.5f;
 
 	void Start ()
@@ -25,18 +25,23 @@ public class Player : MonoBehaviour
 		rb2D = GetComponent<Rigidbody2D> ();
 		animator = GetComponent<Animator> ();
 		GameManager.instance.playerManager.player = this;
+		inverseMoveTime = 1f / moveSpeed;
 	}
 
 	void Update ()
 	{
 		SetDestination ();
-		Move (Destination);
 
 		if (isTargetInRange () && Input.GetMouseButtonDown (0)) {
 			if (Target is Resource) {
 				((Resource)Target).ApplyDamage (1);
 			}
 		}
+	}
+
+	void FixedUpdate ()
+	{
+		Move (Destination);
 	}
 
 	void SetDestination ()
@@ -49,11 +54,15 @@ public class Player : MonoBehaviour
 
 	//	void OnCollisionEnter2D(Collision2D coll){
 
-	//	}
+	//	}	
 		
 	void Move (Vector2 targetPos)
 	{
-		rb2D.velocity = (targetPos - (Vector2)transform.position).normalized * moveSpeed;
+		if ((targetPos - (Vector2)transform.position).sqrMagnitude < 0.5) {
+			rb2D.velocity = new Vector2 () * 0;
+		} else {
+			rb2D.velocity = ((targetPos - (Vector2)transform.position)).normalized * moveSpeed;
+		}
 	}
 
 	bool isTargetInRange ()
