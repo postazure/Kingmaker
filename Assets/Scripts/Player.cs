@@ -11,21 +11,19 @@ public class Player : MonoBehaviour
 	public LayerMask blockingLayer;
 
 
-	private BoxCollider2D boxCollider;
+//	private BoxCollider2D boxCollider;
 	private Rigidbody2D rb2D;
 	private Animator animator;
-	private float inverseMoveTime;
 
 	private float moveSpeed = 5.0f;
 	private float meleeRange = 1.5f;
 
 	void Start ()
 	{
-		boxCollider = GetComponent<BoxCollider2D> ();
+//		boxCollider = GetComponent<BoxCollider2D> ();
 		rb2D = GetComponent<Rigidbody2D> ();
 		animator = GetComponent<Animator> ();
 		GameManager.instance.playerManager.player = this;
-		inverseMoveTime = 1f / moveSpeed;
 	}
 
 	void Update ()
@@ -34,6 +32,7 @@ public class Player : MonoBehaviour
 
 		if (isTargetInRange () && Input.GetMouseButtonDown (0)) {
 			if (Target is Resource) {
+				animator.SetTrigger ("playerChop");
 				((Resource)Target).ApplyDamage (1);
 			}
 		}
