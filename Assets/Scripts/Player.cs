@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 	public LayerMask blockingLayer;
 
 
-//	private BoxCollider2D boxCollider;
+	//	private BoxCollider2D boxCollider;
 	private Rigidbody2D rb2D;
 	private Animator animator;
 
@@ -28,25 +28,17 @@ public class Player : MonoBehaviour
 
 	void Update ()
 	{
-
 		SetDestination ();
+		Move (Destination);
+	}
 
-//		if (isTargetInRange () && Input.GetMouseButtonDown (0)) {
-//			if (Target is Resource) {
-//				animator.SetTrigger ("playerChop");
-//				((Resource)Target).ApplyDamage (1);
-//			}
-//		}
+	public bool IsObjectInRange (Vector3 objectsPostion, float addDistance = 0)
+	{
+		return (transform.position - objectsPostion).sqrMagnitude < meleeRange;
+	}
 
-		if (Target && isObjectInRange(Target.transform.position, meleeRange)) {
-			if (Input.GetMouseButtonDown (0)) {
-				if (Target is Resource) {
-					HarvestResource ();
-				}
-			}
-		} else {
-			Move (Destination);
-		}
+	public void HarvestResource(){
+		animator.SetTrigger ("playerChop");
 	}
 
 	void SetDestination ()
@@ -57,27 +49,17 @@ public class Player : MonoBehaviour
 		}
 	}
 
-		void OnCollisionEnter2D(Collision2D coll){
+	void OnCollisionEnter2D (Collision2D coll)
+	{
 		rb2D.velocity = new Vector2 () * 0;
-		}	
-		
+	}
+
 	void Move (Vector2 targetPos)
 	{
-		if (isObjectInRange (targetPos)) {
+		if (IsObjectInRange (targetPos)) {
 			rb2D.velocity = new Vector2 () * 0;
 		} else {
 			rb2D.velocity = ((targetPos - (Vector2)transform.position)).normalized * moveSpeed;
 		}
-	}
-		
-	bool isObjectInRange (Vector3 objectsPostion, float addDistance = 0)
-	{
-		return (transform.position - objectsPostion).sqrMagnitude < 0.5 + addDistance;
-	}
-
-	void HarvestResource ()
-	{
-		animator.SetTrigger ("playerChop");
-		((Resource)Target).ApplyDamage (1);
-	}
+	}		
 }
