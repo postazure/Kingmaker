@@ -9,6 +9,7 @@ public class Resource : Targetable
 	//2 of 2 audio clips that play when the wall is attacked by the player.
 	//Alternate sprite to display after Wall has been attacked by player.
 	public Sprite[] sprites;
+	public GameObject itemDrop;
 
 	private int hp;
 	private int damageTaken = 0;
@@ -47,7 +48,10 @@ public class Resource : Targetable
 		}
 	
 		base.OnMouseDown ();
-	
+	}
+
+	void OnDisable(){
+		Instantiate (itemDrop, transform.position, transform.rotation);
 	}
 		
 }
