@@ -4,12 +4,13 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
 
-	public Vector2 Destination { get; set; }
-
 	public Targetable Target { get; set; }
+	public PlayerManager Manager { get; set; }
 
+	public PlayerInventory Inventory {get; private set;}
+
+	public Vector2 Destination { get; set; }
 	public LayerMask blockingLayer;
-
 
 	//	private BoxCollider2D boxCollider;
 	private Rigidbody2D rb2D;
@@ -20,10 +21,12 @@ public class Player : MonoBehaviour
 
 	void Start ()
 	{
+		Manager = GameManager.instance.playerManager;
 //		boxCollider = GetComponent<BoxCollider2D> ();
 		rb2D = GetComponent<Rigidbody2D> ();
 		animator = GetComponent<Animator> ();
-		GameManager.instance.playerManager.player = this;
+		Manager.Player = this;
+		Inventory = Manager.inventory;
 	}
 
 	void Update ()

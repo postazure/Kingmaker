@@ -40,7 +40,7 @@ public class Resource : Targetable
 
 	public override void OnMouseDown ()
 	{
-		var player = GameManager.instance.playerManager.player;
+		var player = GameManager.instance.playerManager.Player;
 
 		if (player.IsObjectInRange (this.transform.position)) {
 			player.HarvestResource ();
