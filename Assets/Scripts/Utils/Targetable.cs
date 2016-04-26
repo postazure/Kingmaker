@@ -13,7 +13,7 @@ public class Targetable : MonoBehaviour
 		GameManager.instance.playerManager.SetTarget (null);
 	}
 
-	protected void OnDisable ()
+	void OnDisable ()
 	{
 		RemoveTarget ();
 	}

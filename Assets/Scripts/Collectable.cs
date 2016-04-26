@@ -5,9 +5,13 @@ public class Collectable : MonoBehaviour
 {
 	public string displayName;
 	public string systemName;
-	public string count;
+	public int count;
 	public Sprite worldPresence;
 	public Sprite inventoryPresence;
+
+	void Start(){
+		this.count = 1;
+	}
 
 	void OnTriggerEnter2D (Collider2D other)
 	{
@@ -18,16 +22,20 @@ public class Collectable : MonoBehaviour
 		}
 	}
 
-	public override bool Equals (object o)
+	public Collectable Clone ()
 	{
-		if (!(o is Collectable)) { return false;}
-
-		Collectable other = o as Collectable;
-		return this.systemName  == other.systemName;
+		var o = new Collectable();
+		o.displayName = displayName;
+		o.systemName = systemName;
+		o.count = count;
+		o.worldPresence = worldPresence;
+		o.inventoryPresence = inventoryPresence;
+		return o;
 	}
 
-	public override int GetHashCode ()
+	public override string ToString ()
 	{
-		return systemName.GetHashCode();
+		return systemName;
 	}
+	
 }
