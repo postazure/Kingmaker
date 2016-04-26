@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 	private Animator animator;
 
 	private float moveSpeed = 5.0f;
-	private float meleeRange = 1f;
+	private float meleeRange = 1.5f;
 
 	void Start ()
 	{

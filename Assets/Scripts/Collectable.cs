@@ -14,7 +14,7 @@ public class Collectable : MonoBehaviour
 		Player player = other.gameObject.GetComponent<Player> ();
 		if (player) {
 			player.Inventory.Add (this);
-			Destroy(this.gameObject); // TODO Make Work
+			Destroy(this.gameObject);
 		}
 	}
 

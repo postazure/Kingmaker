@@ -52,6 +52,7 @@ public class Resource : Targetable
 
 	void OnDisable(){
 		Instantiate (itemDrop, transform.position, transform.rotation);
+		base.OnDisable ();
 	}
 		
 }
