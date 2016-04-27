@@ -5,24 +5,25 @@ using System.Collections.Generic;
 
 public class PlayerInventory
 {
-	private List<Collectable> contents;
+	private List<InventoryItem> contents;
 	private Text inventoryText;
 
 	public PlayerInventory (Text inventoryText)
 	{
-		contents = new List<Collectable> ();
+		contents = new List<InventoryItem> ();
 		this.inventoryText = inventoryText;
 	}
 
 	public void Add (Collectable pickup)
 	{
-		Collectable itemInInventory;
-		itemInInventory = contents.Find (item => item.systemName == pickup.systemName) ?? new Collectable ();
+		InventoryItem pickupItem = new InventoryItem (pickup);
+		InventoryItem itemInInventory;
+		itemInInventory = contents.Find (item => item.Equals(pickupItem));
 
-		if (itemInInventory.systemName == pickup.systemName) {
-			itemInInventory.count += pickup.count;
+		if (itemInInventory == null) {
+			contents.Add (pickupItem);
 		} else {
-			contents.Add (pickup.Clone ());
+			itemInInventory.count += pickupItem.count;
 		}
 	
 		updateText ();
@@ -38,5 +39,33 @@ public class PlayerInventory
 		});
 
 		inventoryText.text = text;
+	}
+
+
+
+	class InventoryItem {
+		//InventoryItem is needed to strip the MonoBehavior from the Collectable class
+		//otherwise there is wierd interaction with 'null'
+		public string displayName;
+		public string systemName;
+		public int count;
+		public Sprite worldPresence;
+		public Sprite inventoryPresence;
+
+		public InventoryItem(Collectable collectable){
+			this.displayName = collectable.displayName;
+			this.systemName = collectable.systemName;
+			this.count = collectable.count;
+			this.worldPresence = collectable.worldPresence;
+			this.inventoryPresence = collectable.inventoryPresence;
+		}
+
+		public override bool Equals (object obj)
+		{
+			if (!(obj is InventoryItem)) {
+				return false;
+			}
+			return systemName == (obj as InventoryItem).systemName;
+		}
 	}
 }

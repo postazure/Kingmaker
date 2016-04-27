@@ -22,17 +22,6 @@ public class Collectable : MonoBehaviour
 		}
 	}
 
-	public Collectable Clone ()
-	{
-		var o = new Collectable();
-		o.displayName = displayName;
-		o.systemName = systemName;
-		o.count = count;
-		o.worldPresence = worldPresence;
-		o.inventoryPresence = inventoryPresence;
-		return o;
-	}
-
 	public override string ToString ()
 	{
 		return systemName;
