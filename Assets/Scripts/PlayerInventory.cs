@@ -18,7 +18,7 @@ public class PlayerInventory
 	{
 		InventoryItem pickupItem = new InventoryItem (pickup);
 		InventoryItem itemInInventory;
-		itemInInventory = contents.Find (item => item.Equals(pickupItem));
+		itemInInventory = contents.Find (item => item == pickupItem);
 
 		if (itemInInventory == null) {
 			contents.Add (pickupItem);
@@ -66,6 +66,11 @@ public class PlayerInventory
 				return false;
 			}
 			return systemName == (obj as InventoryItem).systemName;
+		}
+
+		public override int GetHashCode ()
+		{
+			return systemName.GetHashCode ();
 		}
 	}
 }
